@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SereneSpace Signup</title>
+    <style>
+       /* Reset Default Styles */
+       * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        /* Full-Page Background */
+        body {
+            background-color: #fdfaf3; /* Light cream */
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        /* Header Bar */
+        .header {
+            background-color: #BBC7A4; /* Soft green */
+            width: 100%;
+            height: 100px; /* Reduced height */
+            display: flex;
+            padding-left: 29px;
+            align-items: center;
+            gap: 20px;
+            font-size: 30px;
+            font-weight: bold;
+            color: white;
+        }
+        
+        /* Logo */
+        .logo {
+            height: 65px;
+        }
+
+        /* Signup Box */
+        .signup-box {
+            background-color: #d4b7b9;
+            padding: 42px;
+            border-radius: 20px;
+            text-align: center;
+            width: 500px;
+            margin-top: 60px;
+            box-shadow: 0 4px 6px rgba(99, 95, 95, 0.1);
+        }
+
+        /* Heading */
+        .signup-box h2 {
+            color: #3A3A3A;
+            margin-bottom: 15px;
+        }
+
+        .signup-box p {
+            font-weight: bold;
+            color: white;
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+        
+        /* Input Fields */
+        .signup-box input {
+            width: 100%;
+            padding: 14px;
+            margin: 12px 0;
+            border: none;
+            border-radius: 20px;
+            background-color: white;
+            font-size: 16px;
+            outline: none;
+        }
+        
+        /* Signup Button */
+        .signup-box button {
+            width: auto;
+            padding: 13px 40px;
+            background-color: #fff;
+            font-weight: bold;
+            color: #373737;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 15px;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+        
+        /* Button Hover */
+        .signup-box button:hover {
+            background-color: #857070;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <img src="logoserenespace.png" alt="SereneSpace Logo" class="logo">
+        SereneSpace
+    </div>
+    
+    <!-- Signup Form -->
+    <div class="signup-box">
+        <h2>Your Productivity Journey Begins Today!</h2>
+        <form id="signup-form">
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="text" id="username" placeholder="Username" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <input type="password" id="confirm-password" placeholder="Re-enter password" required>
+            <button type="submit">Sign up</button>
+        </form>
+    </div>
+
+    <script>
+       // Form submission handling
+       document.getElementById("signup-form").addEventListener("submit", async function(event) {
+           event.preventDefault(); // Prevent form from reloading the page
+           console.log("Signup button clicked!");
+
+           const username = document.getElementById("username").value;
+           const email = document.getElementById("email").value;
+           const password = document.getElementById("password").value;
+           const confirmPassword = document.getElementById("confirm-password").value;
+
+           if (password !== confirmPassword) {
+               alert("Passwords do not match!");
+               return;
+           }
+
+           try {
+               const response = await fetch("http://localhost:8080/api/auth/Signup", {
+                   method: "POST",
+                   headers: { "Content-Type": "application/json" },
+                   body: JSON.stringify({ username, email, password })
+               });
+
+               const data = await response.json();
+               console.log("Response:", data);
+
+               if (response.ok) {
+                   alert("Signup successful!");
+                   window.location.href = "/Login.html"; // Redirect to login page
+               } else {
+                   alert("Error: " + data.message);
+               }
+           } catch (error) {
+               console.error("Fetch error:", error);
+               alert("Something went wrong. Please try again.");
+           }
+       });
+    </script>
+</body>
+</html>
