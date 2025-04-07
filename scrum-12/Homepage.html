@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>SereneSpace - Homepage</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Arial", sans-serif;
+      background: #dbe3ce;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #d4b6be;
+      padding: 18px 30px;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      font-size: 30px;
+      font-weight: bold;
+      color: white;
+    }
+
+    
+    .logo img {
+      height: 65px;
+    }
+
+    .username {
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .icons {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .icon-btn {
+      background-color: white;
+      border: none;
+      border-radius: 50%;
+      padding: 10px;
+      width: 50px;
+      height: 50px; 
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    
+    .icon-btn img {
+      width: 30px;
+      height: 30px;
+    }
+    .icon-btn:hover{
+      background-color: rgba(253, 251, 251, 0.442)
+    }
+
+    .page-content {
+      display: flex;
+      height: calc(100vh - 80px);
+    }
+
+    
+    .notes img {
+      width: 35px;
+    }
+
+    .notes p {
+      display: inline-flex;
+      margin-bottom: 10px;
+      margin-top: 0px;
+    }
+    
+    .sidebar {
+      width: 290px;
+      background: #dbe3ce;
+      padding: 20px;
+      border-right: 1px solid #ccc;
+      font-size: 20px;
+      display: flex;
+    }
+
+
+
+    .notes textarea {
+      width: calc(250px - 0px);
+      height: calc(690px - 140px);
+      padding: 20px;
+      border: none;
+      border-radius: 15px;
+      resize: none;
+      background: #fdfaf3;
+      font-size: 14px;
+      font-family: Arial, Helvetica, sans-serif;
+      margin-right: 20px; 
+      border: 1px solid #d5d5d5;
+      outline: none;
+    }
+
+
+
+    .main {
+      flex: 1;
+      background: #dbe3ce;
+      overflow-y: auto;
+    }
+
+    .weekday-tabs {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 30px;
+      border: 1px solid #d5d5d5;
+      background: #FFFEF2;
+      width: 100%;
+      height: 78px;
+      flex-shrink: 0;
+    }
+
+    .weekday-tabs button {
+      background: #FFFEF2;
+      border: none;
+      padding: 15px 56px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 16px;
+      color: rgb(55, 55, 55);
+      margin-left: 21px;
+    }
+
+    .weekday-tabs button.active {
+      background-color: #d4b6be;
+      color: white;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .create-btn {
+      margin-left: 1060px;
+      background: #d4b6be;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 50px;
+      color: white;
+      font-weight: bold;
+      font-size: 19px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .create-btn:hover {
+      background: #c2a8b0;
+    }
+
+    .task-card {
+      background: #fdfaf3;
+      border-radius: 20px;
+      padding: 15px 20px;
+      margin-bottom: 20px;
+      display: flex;
+      gap: 20px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .task-emoji {
+      font-size: 20px;
+      min-width: 50px;
+      text-align: center;
+    }
+
+    .task-details {
+      flex: 1;
+    }
+    a {
+      text-decoration: none;
+    }
+    .task-details p {
+      margin: 4px 0;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .task-details button {
+      background: #d4b6be;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <div class="header">
+    <a href="homepage.html">
+      <div class="logo">
+        <img src="logoserenespace.png" alt="logo">
+        SereneSpace
+      </div>
+    </a>
+
+    <div class="username">User</div>
+    <div class="icons">
+      <button class="icon-btn" id="calendarBtn">
+        <img src="Calendar.png" alt="Calendar" width="20" />
+      </button>
+      <button class="icon-btn" id="settingBtn">
+        <img src="Settings.png" alt="Setting" width="20" />
+      </button>
+    </div>
+  </div>
+
+  <!-- Page Content -->
+  <div class="page-content">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="notes">
+        <img src="Notes.png" alt="Notes Icon"/> <p>Notes</p>
+        <textarea placeholder="Brainstorm or plan out your day!"></textarea>
+      </div>
+    </div>
+    
+    <!-- Main Section -->
+    <div class="main">
+      <div class="weekday-tabs">
+        <button class="day-tab active">Mon</button>
+        <button class="day-tab">Tue</button>
+        <button class="day-tab">Wed</button>
+        <button class="day-tab">Thu</button>
+        <button class="day-tab">Fri</button>
+        <button class="day-tab">Sat</button>
+        <button class="day-tab">Sun</button>
+      </div>
+      
+      <div id="habitContainer"></div>
+      <button class="create-btn" id="createBtn">Create</button>
+    </div>
+  </div>
+
+  <!-- JS for Data Fetching -->
+  <script>
+    document.getElementById("calendarBtn").onclick = () => window.location.href = "CalendarViewpage.html";
+    document.getElementById("settingBtn").onclick = () => window.location.href = "settings.html";
+    document.getElementById("createBtn").onclick = () => window.location.href = "createtaskpage.html";
+
+    
+    async function loadHabits(day) {
+      try {
+        const res = await fetch(`http://localhost:5050/api/habits?day=${day}`);
+        const habits = await res.json();
+        const container = document.getElementById("habitContainer");
+        container.innerHTML = "";
+
+        habits.forEach(habit => {
+          const card = document.createElement("div");
+          card.className = "task-card";
+          card.innerHTML = `
+            <div class="task-emoji">📌</div>
+            <div class="task-details">
+              <p><strong>${habit.title}</strong> (${habit.startTime} - ${habit.endTime})</p>
+              <p>${habit.duration}</p>
+              <p>${habit.description || "No description"}</p>
+              <p>${habit.subtask || "No subtask"}</p>
+              <button onclick="location.href='EditDeletePage.html?id=${habit._id}'">Edit/Delete</button>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+      } catch (err) {
+        console.error("Failed to fetch habits", err);
+      }
+    }
+
+    window.onload = () => loadHabits("Mon");
+
+    document.querySelectorAll(".day-tab").forEach(tab => {
+      tab.addEventListener("click", () => {
+        document.querySelector(".day-tab.active")?.classList.remove("active");
+        tab.classList.add("active");
+        const day = tab.textContent.trim().slice(0, 3);
+        loadHabits(day);
+      });
+    });
+  </script>
+</body>
+</html>
