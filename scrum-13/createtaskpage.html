@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Create Task - SereneSpace</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #fdfaf3;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #d4b6be;
+      padding: 18px 30px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      font-size: 30px;
+      font-weight: bold;
+      color: white;
+    }
+
+    a {
+      text-decoration: none;
+    }
+    
+    .logo img {
+      height: 65px;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .user-text {
+      font-size: 20px;
+      font-weight: bold;
+      color: white;
+    }
+
+    .icon-btn {
+      background-color: white;
+      border: none;
+      border-radius: 50%;
+      padding: 10px;
+      width: 50px;
+      height: 50px; 
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    
+    .icon-btn img {
+      width: 30px;
+      height: 30px;
+    }
+    .icon-btn:hover{
+      background-color: rgba(253, 251, 251, 0.442)
+    }
+
+    .task-box {
+      border-radius: 40px;
+      background: #DAC3CA;
+      padding: 40px;
+      padding-left: 50px;
+      padding-right: 50px;
+      width: 800px;
+      margin: 80px auto;
+      display: flex;
+      gap: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      transition: border 0.3s ease;
+    }
+
+    .task-left {
+      flex: 2;
+      border-radius: 20px;
+    }
+
+    .task-right {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      margin-left: 10px;
+      align-items: flex-end;
+    }
+
+    .task-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-left: 250px;
+      margin-bottom: 30px;
+    }
+
+    .task-header h3 {
+      margin: 0;
+      font-size: 24px;
+      color: #424242;
+    }
+
+    .close-btn {
+      font-size: 24px;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .input-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .input-row img {
+      width: 24px;
+    }
+
+    .input-row input,
+    .input-row select {
+      flex: 1;
+      padding: 14px;
+      border-radius: 20px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      outline: none;
+    }
+
+    .input-row input[type="time"] {
+      min-width: 0;
+    }
+
+    .input-row select option {
+      background: #e9f0dd;
+      font-weight: bold;
+    }
+
+    .description-wrapper {
+      position: relative;
+      width: 100%;
+      margin-top: 30px;
+      margin-bottom: 70px;
+    }
+
+    .description-wrapper img {
+      position: absolute;
+      top: 20px;
+      left: 24px;
+      width: 20px;
+      height: 20px;
+      opacity: 0.6;
+    }
+  
+  textarea#description {
+      width: 100%;
+      height: 220px;
+      padding: 10px 10px 10px 38px; /* Ensure space for the icon */
+      font-size: 16px;
+      border-radius: 20px;
+      border: none;
+      background: white;
+      box-sizing: border-box;
+      resize: none;
+      font-family: Arial, Helvetica, sans-serif;
+      outline: none;
+  }
+
+    .submit-btn {
+      background: white;
+      border-radius: 50%;
+      border: none;
+      width: 50px;
+      height: 50px; 
+      padding: 14px;
+      cursor: pointer;
+      margin-top: 20px;
+      margin-right: 10px;
+      box-shadow: 0 0 4px rgba(0,0,0,0.2);
+      transition: transform 0.2s ease;
+    }
+
+    .submit-btn img {
+      width: 25px;
+      height: 25px;
+    }
+
+    .submit-btn:hover {
+      transform: scale(1.05);
+    }
+
+    #hiddenColorPicker {
+      display: none;
+    }
+
+    ::placeholder {
+      color: #6e5a5a;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <div class="header">
+    <a href="homepage.html">
+      <div class="logo">
+        <img src="logoserenespace.png" alt="logo">
+        SereneSpace
+      </div>
+    </a>
+    
+    <div class="header-right">
+      <div class="user-text">User</div>
+      <button class="icon-btn" id="calendarBtn"><img src="Calendar.png" alt="Calendar" /></button>
+      <button class="icon-btn" id="settingsBtn"><img src="Setting.png" alt="Settings" /></button>
+    </div>
+  </div>
+
+  <!-- Task Form -->
+  <div class="task-box" id="taskBox">
+    <div class="task-left">
+      <div class="task-header">
+        <h3>Write down a new task!</h3>
+      </div>
+
+      <div class="input-row">
+        <img src="TaskTitle.png" alt="Title" />
+        <input type="text" id="taskTitle" placeholder="Task title" />
+        <button id="emojiBtn"><img src="Emoji.png"alt="Emoji" /></button>
+        <button class="icon-btn" id="colorBtn"><img src="Colour.png" alt="Color" /></button>
+        <input type="color" id="hiddenColorPicker" />
+      </div>
+
+      <div class="input-row">
+        <img src="Calendar.png" alt="Date" />
+        <input type="date" id="taskDate" />
+      </div>
+
+      <div class="input-row">
+        <img src="Time.png" alt="Time" />
+        <input type="time" id="startTime" />
+        <input type="time" id="endTime" />
+      </div>
+
+      <div class="input-row">
+        <img src="Duration.png" alt="Duration" />
+        <input type="text" id="duration" placeholder="Time duration" readonly />
+      </div>
+
+      <div class="input-row">
+        <img src="Priority.png" alt="Priority" />
+        <select id="priority">
+          <option>High</option>
+          <option>Medium</option>
+          <option>Low</option>
+        </select>
+      </div>
+
+      <div class="input-row">
+        <img src="Subtask.png" alt="Subtask" />
+        <input type="text" id="subtasks" placeholder="Add subtasks" />
+      </div>
+    </div>
+
+    <div class="task-right">
+      <div class="cross">
+        <img src="Cross.png" alt="Cross" width="26px"/>
+      </div>
+      <div class="description-wrapper">
+        <img src="Description.png" alt="Description Icon" />
+        <textarea id="description" placeholder="Descriptions"></textarea>
+      </div>
+      <button class="submit-btn" id="submitBtn"><img src="Tick.png" alt="Submit" /></button>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    const colorPicker = document.getElementById("hiddenColorPicker");
+    const taskBox = document.getElementById("taskBox");
+
+    // Redirect header buttons
+    document.getElementById("calendarBtn").addEventListener("click", () => {
+      window.location.href = "CalendarViewpage.html";
+    });
+
+    document.getElementById("settingsBtn").addEventListener("click", () => {
+      window.location.href = "Settingpage.html";
+    });
+
+    // Emoji Picker
+    const emojiOptions = ["🌿", "📌", "✨", "🧘‍♀️", "📖", "💡", "✅", "🕰️"];
+    document.getElementById("emojiBtn").addEventListener("click", () => {
+      let emojiList = emojiOptions.map((e, i) => `${i + 1}. ${e}`).join("\n");
+      const choice = prompt(`Pick an emoji:\n${emojiList}`);
+      const index = parseInt(choice) - 1;
+      if (emojiOptions[index]) {
+        document.getElementById("taskTitle").value += " " + emojiOptions[index];
+      }
+    });
+
+    // Color Picker
+    document.getElementById("colorBtn").addEventListener("click", () => {
+      colorPicker.click();
+    });
+
+    colorPicker.addEventListener("input", () => {
+      taskBox.style.border = `3px solid ${colorPicker.value}`;
+    });
+
+    // Duration Calculation
+    function calculateDuration() {
+      const start = document.getElementById("startTime").value;
+      const end = document.getElementById("endTime").value;
+      if (start && end) {
+        const [sh, sm] = start.split(":").map(Number);
+        const [eh, em] = end.split(":").map(Number);
+        const startMin = sh * 60 + sm;
+        const endMin = eh * 60 + em;
+        if (endMin >= startMin) {
+          const total = endMin - startMin;
+          const hrs = Math.floor(total / 60);
+          const mins = total % 60;
+          document.getElementById("duration").value = `${hrs}h ${mins}m`;
+        } else {
+          document.getElementById("duration").value = "Invalid Time";
+        }
+      }
+    }
+
+    document.getElementById("startTime").addEventListener("change", calculateDuration);
+    document.getElementById("endTime").addEventListener("change", calculateDuration);
+
+    // Submit Button
+    document.getElementById("submitBtn").addEventListener("click", async () => {
+  const titleVal = document.getElementById("taskTitle").value;
+  const emoji = titleVal.match(/[\p{Emoji}]/gu)?.join("") || "";
+
+  const taskData = {
+    title: titleVal,
+    emoji,
+    color: colorPicker.value,
+    date: document.getElementById("taskDate").value,
+    startTime: document.getElementById("startTime").value,
+    endTime: document.getElementById("endTime").value,
+    duration: document.getElementById("duration").value,
+    priority: document.getElementById("priority").value,
+    subtask: document.getElementById("subtasks").value,
+    description: document.getElementById("description").value,
+    day: new Date(document.getElementById("taskDate").value).toLocaleString('en-US', { weekday: 'short' })
+
+  };
+
+  try {
+    const res = await fetch("http://localhost:5050/api/habits", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(taskData),
+    });
+
+    if (res.ok) {
+      alert("✅ Task submitted successfully!");
+      window.location.href = "homepage.html";
+    } else {
+      alert("❌ Failed to save task.");
+    }
+  } catch (err) {
+    console.error("Submission error:", err);
+    alert("❌ Error submitting task.");
+  }
+});
+
+  </script>
+</body>
+</html>
