@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>SereneSpace</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background-color: #dbe3ce;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    body.dark-mode {
+      background-color: #2f2f2f;
+      color: #fff;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #d4b6be;
+      padding: 18px 30px;
+    }
+
+    body.dark-mode .header {
+      background-color: #444;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      font-size: 30px;
+      font-weight: bold;
+      color: white;
+    }
+    .logo img {
+      height: 65px;
+    }
+
+    .user-bar {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .user-name {
+      font-size: 20px;
+      font-weight: bold;
+      color: white;
+    }
+
+    .icon-btn {
+      background-color: white;
+      border: none;
+      border-radius: 50%;
+      padding: 10px;
+      width: 50px;
+      height: 50px; 
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    
+    .icon-btn img {
+      width: 30px;
+      height: 30px;
+    }
+    .icon-btn:hover{
+      background-color: rgba(253, 251, 251, 0.442)
+    }
+
+
+    .dropdown {
+      position: absolute;
+      top: 80px;
+      right: 20px;
+      background-color: white;
+      border: 2px solid #9dad90;
+      border-radius: 4px;
+      display: none;
+      flex-direction: column;
+      z-index: 100;
+    }
+
+    .dropdown button {
+      background: white;
+      border: none;
+      border-bottom: 1px solid #ddd;
+      padding: 10px 20px;
+      text-align: left;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .calendar-popup {
+      position: absolute;
+      top: 80px;
+      right: 80px;
+      background: white;
+      padding: 10px;
+      border-radius: 10px;
+      display: none;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+
+    .calendar-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      text-align: center;
+    }
+
+    .calendar-grid div {
+      cursor: pointer;
+      padding: 5px;
+      border-radius: 5px;
+    }
+
+    .calendar-grid div:hover {
+      background-color: #e3e3e3;
+    }
+
+    .page {
+      display: flex;
+      height: calc(100vh - 80px);
+    }
+
+    .sidebar {
+      background-color: #cfd3bd;
+      width: 250px;
+      padding: 20px;
+    }
+
+    .sidebar h4 {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-weight: bold;
+    }
+
+    .notes {
+      background-color: white;
+      border-radius: 20px;
+      padding: 5px;
+      height: 400px;
+      width: 100%;
+      resize: none;
+      border: none;
+      font-size: 14px;
+      font-family: sans-serif;
+    }
+
+    .sidebar h4 img {
+  width: 16px;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+
+    .main {
+      flex: 1;
+      padding: 20px;
+      background-color: #dbe3ce;
+      overflow-y: auto;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .tabs button {
+      background-color: #fdfaf3;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .tabs .active {
+      background-color: #cfd3bd;
+    }
+
+    .task {
+      background-color: #fdfaf3;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .task strong {
+      font-weight: bold;
+    }
+
+    .task button {
+      margin-top: 10px;
+      background-color: #d4b6be;
+      color: white;
+      border: none;
+      padding: 5px 12px;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="logo">
+      <img src="logoserenespace.png" alt="logo">
+      SereneSpace
+    </div>
+    <div class="user-bar">
+      <div class="user-name">User</div>
+      <button class="icon-btn" id="calendarBtn"><img src="Calendar.png" alt="Calendar"></button>
+      <button class="icon-btn" id="settingsBtn"><img src="Setting.png" alt="Settings"></button>
+    </div>
+
+    <!-- Settings Dropdown -->
+    <div class="dropdown" id="settingsDropdown">
+      <button onclick="alert('Account settings')">Account</button>
+      <button onclick="alert('Switching to week view')">Week</button>
+      <button onclick="toggleTheme()">Theme</button>
+    </div>
+
+    <!-- Calendar Popup -->
+    <div class="calendar-popup" id="calendarPopup">
+      <div class="calendar-nav">
+        <button onclick="changeMonth(-1)">&lt;</button>
+        <span id="monthYearDisplay">Month Year</span>
+        <button onclick="changeMonth(1)">&gt;</button>
+      </div>
+      <div class="calendar-grid" id="calendarGrid"></div>
+    </div>
+  </div>
+
+  <!-- Page Content -->
+  <div class="page">
+    <div class="sidebar">
+      <h4><img src="Notes.png" alt="Notes Icon" style="width: 16px; vertical-align: middle; margin-right: 6px;" /> Notes</h4>
+      <textarea class="notes" placeholder="Write notes here..."></textarea>
+    </div>
+    <div class="main">
+      <div class="tabs">
+        <button class="tab active" data-day="Mon">Mon</button>
+        <button class="tab" data-day="Tue">Tue</button>
+        <button class="tab" data-day="Wed">Wed</button>
+        <button class="tab" data-day="Thu">Thu</button>
+        <button class="tab" data-day="Fri">Fri</button>
+      </div>
+      <div id="taskList"></div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    const settingsBtn = document.getElementById("settingsBtn");
+    const dropdown = document.getElementById("settingsDropdown");
+    const calendarBtn = document.getElementById("calendarBtn");
+    const calendarPopup = document.getElementById("calendarPopup");
+    const calendarGrid = document.getElementById("calendarGrid");
+    const monthYearDisplay = document.getElementById("monthYearDisplay");
+    const taskList = document.getElementById("taskList");
+
+    let currentDate = new Date();
+
+    settingsBtn.onclick = (e) => {
+      e.stopPropagation();
+      dropdown.style.display = dropdown.style.display === "flex" ? "none" : "flex";
+    };
+    document.addEventListener("click", (e) => {
+      if (!dropdown.contains(e.target)) dropdown.style.display = "none";
+    });
+
+    function toggleTheme() {
+      document.body.classList.toggle("dark-mode");
+    }
+
+    calendarBtn.onclick = (e) => {
+      e.stopPropagation();
+      calendarPopup.style.display = calendarPopup.style.display === "block" ? "none" : "block";
+      renderCalendar(currentDate);
+    };
+
+    document.addEventListener("click", (e) => {
+      if (!calendarPopup.contains(e.target) && e.target !== calendarBtn) {
+        calendarPopup.style.display = "none";
+      }
+    });
+
+    function renderCalendar(date) {
+      const year = date.getFullYear();
+      const month = date.getMonth();
+      const firstDay = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+      monthYearDisplay.textContent = monthNames[month] + " " + year;
+
+      calendarGrid.innerHTML = "";
+      ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].forEach(day => {
+        const div = document.createElement("div");
+        div.innerText = day;
+        calendarGrid.appendChild(div);
+      });
+
+      let blanks = firstDay === 0 ? 6 : firstDay - 1;
+      for (let i = 0; i < blanks; i++) calendarGrid.appendChild(document.createElement("div"));
+
+      for (let d = 1; d <= daysInMonth; d++) {
+        const div = document.createElement("div");
+        div.innerText = d;
+        const dateStr = `${year}-${String(month+1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+        div.onclick = () => loadTasksByDate(dateStr);
+        calendarGrid.appendChild(div);
+      }
+    }
+
+    function changeMonth(offset) {
+      currentDate.setMonth(currentDate.getMonth() + offset);
+      renderCalendar(currentDate);
+    }
+
+    document.querySelectorAll(".tab").forEach(tab => {
+      tab.addEventListener("click", () => {
+        document.querySelector(".tab.active")?.classList.remove("active");
+        tab.classList.add("active");
+        loadTasks(tab.dataset.day);
+      });
+    });
+
+    async function loadTasks(day = "Mon") {
+      try {
+        const res = await fetch("http://localhost:5050/api/habits?day=" + day);
+        const tasks = await res.json();
+        displayTasks(tasks);
+      } catch (err) {
+        console.error("Failed to load tasks", err);
+      }
+    }
+
+    async function loadTasksByDate(date) {
+  try {
+    const res = await fetch(`http://localhost:5050/api/habits?date=${date}`);
+    const tasks = await res.json();
+    if (tasks.length === 0) {
+      taskList.innerHTML = `<div class="task">No tasks for ${date}</div>`;
+    } else {
+      displayTasks(tasks);
+    }
+  } catch (err) {
+    console.error("Failed to load tasks for date", err);
+    taskList.innerHTML = `<div class="task">Error loading tasks.</div>`;
+  }
+}
+
+function displayTasks(tasks) {
+  taskList.innerHTML = "";
+  tasks.forEach(t => {
+    const div = document.createElement("div");
+    div.className = "task";
+    div.innerHTML = `
+      <div><strong>${t.emoji || ""} ${t.title}</strong> (${t.startTime} - ${t.endTime})</div>
+      <div>Duration: ${t.duration || "N/A"}</div>
+      <div>Description: ${t.description || "None"}</div>
+      <div>Subtask: ${t.subtask || "None"}</div>
+      <button onclick="window.location.href='EditDeletePage.html?id=${t._id}'">Edit/Delete</button>
+    `;
+    div.style.backgroundColor = t.color || "#fdfaf3";
+    taskList.appendChild(div);
+  });
+}
+
+
+    window.onload = () => {
+      loadTasks("Mon");
+    };
+  </script>
+</body>
+</html>
