@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Edit/Delete Task</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #fdfaf3;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #d4b6be;
+      padding: 18px 30px;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      font-size: 30px;
+      font-weight: bold;
+      color: white;
+    }
+    .logo img {
+      height: 65px;
+    }
+    .user-section {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .user-section span {
+      font-size: 20px;
+      font-weight: bold;
+      color: white;
+    }
+    .icon-btn {
+      background-color: white;
+      border: none;
+      border-radius: 50%;
+      padding: 10px;
+      width: 50px;
+      height: 50px; 
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    
+    .icon-btn img {
+      width: 30px;
+      height: 30px;
+    }
+    .icon-btn:hover{
+      background-color: rgba(253, 251, 251, 0.442)
+    }
+    .task-container {
+      border-radius: 40px;
+      background: #DAC3CA;
+      padding: 40px;
+      padding-left: 50px;
+      padding-right: 50px;
+      width: 800px;
+      margin: 80px auto;
+      display: flex;
+      gap: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      transition: border 0.3s ease;
+    }
+    .task-left {
+      flex: 2;
+    }
+    .task-left h3 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 18px;
+    }
+
+    .input-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .input-row img {
+      width: 24px;
+    }
+
+    .input-row input,
+    .input-row select {
+      flex: 1;
+      padding: 14px;
+      border-radius: 20px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      outline: none;
+    }
+
+    .input-row input[type="time"] {
+      min-width: 0;
+    }
+
+    .input-row select option {
+      background: #e9f0dd;
+      font-weight: bold;
+    }
+
+    
+    .task-footer {
+      display: flex;
+      margin-top: 20px;
+    }
+    .round-btn {
+      background: white;
+      border-radius: 50%;
+      border: none;
+      width: 50px;
+      height: 50px;
+      padding: 14px;
+      cursor: pointer;
+      margin-top: 20px;
+      margin-right: 15px;
+      box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s ease;
+    }
+
+    .round-btn img {
+      width: 25px;
+      height: 25px;
+    }
+
+    .task-right {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      margin-left: 10px;
+      align-items: flex-end;
+    }
+    
+    .task-right label {
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 5px;
+    }
+
+    .description-wrapper {
+      position: relative;
+      width: 100%;
+      margin-top: 30px;
+      margin-bottom: 70px;
+    }
+
+    .description-wrapper img {
+      position: absolute;
+      top: 20px;
+      left: 24px;
+      width: 20px;
+      height: 20px;
+      opacity: 0.6;
+    }
+  
+  textarea#description {
+      width: 100%;
+      height: 220px;
+      padding: 10px 10px 10px 38px; /* Ensure space for the icon */
+      font-size: 16px;
+      border-radius: 20px;
+      border: none;
+      background: white;
+      box-sizing: border-box;
+      resize: none;
+      font-family: Arial, Helvetica, sans-serif;
+      outline: none;
+  }
+
+  .task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 160px;
+    margin-bottom: 30px;
+  }
+
+  .task-header h3 {
+    margin: 0;
+    font-size: 24px;
+    color: #424242;
+  }
+        .input-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .task-right textarea {
+      width: 100%;
+      height: 230px;
+      border: none;
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 14px;
+    }
+    .close-btn {
+      position: absolute;
+      top: 25px;
+      right: 30px;
+      font-size: 28px;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    #emojiPicker {
+      position: absolute;
+      background: white;
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 8px;
+      display: none;
+      top: 140px;
+      left: 350px;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <a href="homepage.html">
+      <div class="logo">
+        <img src="logoserenespace.png" alt="logo">
+        SereneSpace
+      </div>
+    </a>
+    <div class="user-section">
+      <span>User</span>
+      <button class="icon-btn" onclick="window.location.href='CalendarViewpage.html'"><img src="Calendar.png"></button>
+      <button class="icon-btn" onclick="window.location.href='Settingpage.html'"><img src="Settings.png"></button>
+    </div>
+  </div>
+
+  <div class="task-container" id="taskContainer">
+    <div class="task-left">
+      <div class="task-header">
+        <h3>Want to edit or delete the task?</h3>
+      </div>
+      <div class="input-row">
+        <img src="TaskTitle.png"><input type="text" id="taskTitle" placeholder="Task title">
+        <button class="icon-btn" id="emojiBtn"><img src="Emoji.png"></button>
+        <button class="icon-btn" id="colorBtn"><img src="Colour.png"></button>
+      </div>
+      <div class="input-row">
+        <img src="Calendar.png"><input type="date" id="taskDate">
+      </div>
+      <div class="input-row">
+        <img src="Time.png"><input type="time" id="startTime">
+        <input type="time" id="endTime">
+      </div>
+      <div class="input-row">
+        <img src="Duration.png"><input type="text" id="duration" placeholder="Time duration" readonly>
+      </div>
+      <div class="input-row">
+        <img src="Priority.png">
+        <select id="priority">
+          <option>High</option>
+          <option>Medium</option>
+          <option>Low</option>
+        </select>
+      </div>
+      <div class="input-row">
+        <img src="Subtask.png"><input type="text" id="subtasks" placeholder="Add subtasks">
+      </div>
+    </div>
+
+    <div class="task-right">
+      <div class="cross">
+        <img src="Cross.png" alt="Cross" width="26px"/>
+      </div>
+      
+      <div class="description-wrapper">
+        <img src="Description.png" alt="Description Icon" />
+        <textarea id="description" placeholder="Descriptions"></textarea>
+      </div>
+      <div class="task-footer">
+        <button class="round-btn" id="deleteTaskBtn"><img src="Delete.png"></button>
+        <button class="round-btn" id="saveTaskBtn"><img src="Tick.png"></button>
+      </div>
+    </div>
+  </div>
+
+  <div id="emojiPicker">
+    <span style="cursor:pointer; font-size:20px;">😀 😁 😂 😍 🤔 😎 😭 🤯 👍 👎 ✅ ❌ 💡 🕒</span>
+  </div>
+  <input type="color" id="colorPicker" style="display:none;" />
+
+  <script>
+    const taskId = new URLSearchParams(window.location.search).get("id");
+    const emojiBtn = document.getElementById("emojiBtn");
+    const colorBtn = document.getElementById("colorBtn");
+    const emojiPicker = document.getElementById("emojiPicker");
+    const colorPicker = document.getElementById("colorPicker");
+    const taskBox = document.getElementById("taskContainer");
+
+    let selectedEmoji = "";
+    let selectedColor = "#e5d1d0";
+
+    emojiBtn.onclick = (e) => {
+      e.stopPropagation();
+      emojiPicker.style.display = emojiPicker.style.display === "block" ? "none" : "block";
+    };
+    document.addEventListener("click", (e) => {
+      if (!emojiPicker.contains(e.target) && e.target !== emojiBtn) {
+        emojiPicker.style.display = "none";
+      }
+    });
+    emojiPicker.querySelector("span").addEventListener("click", (e) => {
+      selectedEmoji = e.target.textContent.trim();
+      const title = document.getElementById("taskTitle");
+      title.value = selectedEmoji + " " + title.value;
+      emojiPicker.style.display = "none";
+    });
+
+    colorBtn.onclick = () => colorPicker.click();
+    colorPicker.addEventListener("input", () => {
+      selectedColor = colorPicker.value;
+      taskBox.style.backgroundColor = selectedColor;
+    });
+
+    function calculateDuration() {
+      const start = document.getElementById("startTime").value;
+      const end = document.getElementById("endTime").value;
+      if (start && end) {
+        const [sh, sm] = start.split(":").map(Number);
+        const [eh, em] = end.split(":").map(Number);
+        const startMin = sh * 60 + sm;
+        const endMin = eh * 60 + em;
+        const total = endMin - startMin;
+        if (total >= 0) {
+          const hrs = Math.floor(total / 60);
+          const mins = total % 60;
+          document.getElementById("duration").value = `${hrs}h ${mins}m`;
+        } else {
+          document.getElementById("duration").value = "Invalid Time";
+        }
+      }
+    }
+
+    document.getElementById("startTime").addEventListener("input", calculateDuration);
+    document.getElementById("endTime").addEventListener("input", calculateDuration);
+
+    async function loadTaskDetails() {
+      if (!taskId) return;
+      const res = await fetch(`http://localhost:5050/api/habits`);
+      const tasks = await res.json();
+      const task = tasks.find(t => t._id === taskId);
+      if (!task) return;
+      selectedColor = task.color || selectedColor;
+      selectedEmoji = task.emoji || "";
+      taskBox.style.backgroundColor = selectedColor;
+      document.getElementById("taskTitle").value = `${selectedEmoji} ${task.title}`;
+      document.getElementById("taskDate").value = task.date;
+      document.getElementById("startTime").value = task.startTime;
+      document.getElementById("endTime").value = task.endTime;
+      document.getElementById("duration").value = task.duration;
+      document.getElementById("priority").value = task.priority;
+      document.getElementById("subtasks").value = task.subtask;
+      document.getElementById("description").value = task.description;
+    }
+
+    document.getElementById("saveTaskBtn").addEventListener("click", async () => {
+      const data = {
+        title: document.getElementById("taskTitle").value.replace(selectedEmoji, '').trim(),
+        emoji: selectedEmoji,
+        color: selectedColor,
+        date: document.getElementById("taskDate").value,
+        startTime: document.getElementById("startTime").value,
+        endTime: document.getElementById("endTime").value,
+        duration: document.getElementById("duration").value,
+        priority: document.getElementById("priority").value,
+        subtask: document.getElementById("subtasks").value,
+        description: document.getElementById("description").value
+      };
+
+      const res = await fetch(`http://localhost:5050/api/habits/${taskId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+
+      if (res.ok) {
+        alert("✅ Task updated successfully!");
+        window.location.href = "homepage.html";
+      } else {
+        alert("❌ Failed to update task.");
+      }
+    });
+
+    document.getElementById("deleteTaskBtn").addEventListener("click", async () => {
+      if (confirm("Are you sure you want to delete this task?")) {
+        const res = await fetch(`http://localhost:5050/api/habits/${taskId}`, {
+          method: "DELETE"
+        });
+        if (res.ok) {
+          alert("Task deleted!");
+          window.location.href = "homepage.html";
+        } else {
+          alert("Failed to delete task.");
+        }
+      }
+    });
+
+    loadTaskDetails();
+  </script>
+</body>
+</html>
