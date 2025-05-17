@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Week Page - SereneSpace</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: #fdfaf3;
+      height: 100vh;
+    }
+
+    .header {
+      background: #d4b6be;
+      color: white;
+      padding: 16px 30px;
+      font-size: 18px;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: calc(100vh - 60px);
+    }
+
+    .container {
+      background: #fcfaf1;
+      border-radius: 20px;
+      padding: 40px;
+      width: 90%;
+      max-width: 1000px;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .card {
+      background: #dbe3ce;
+      padding: 30px;
+      border-radius: 20px;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .tab {
+      flex: 1;
+      text-align: center;
+      background: white;
+      border: none;
+      padding: 12px 0;
+      margin: 0 10px;
+      border-radius: 30px;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .tab.active {
+      background-color: #d4b6be;
+      color: white;
+    }
+
+    .close-btn {
+      background: transparent;
+      border: none;
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .label {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+
+    .dropdown {
+      background: white;
+      padding: 12px 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    .weekday-list {
+      background: #fffef9;
+      border-radius: 12px;
+      border: 1px solid #ccc;
+      overflow: hidden;
+    }
+
+    .weekday {
+      padding: 14px 20px;
+      font-size: 16px;
+      border-bottom: 1px solid #eee;
+      transition: background 0.2s;
+      cursor: pointer;
+    }
+
+    .weekday:last-child {
+      border-bottom: none;
+    }
+
+    .weekday:hover {
+      background: #eee;
+    }
+
+    .weekday.selected {
+      background: #d4b6be;
+      color: white;
+      font-weight: bold;
+    }
+
+    .task-entry {
+      background: #fdfaf3;
+      margin: 10px 0;
+      padding: 10px 15px;
+      border-radius: 12px;
+      box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .user-display {
+      font-size: 16px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    Week Page
+    <div class="user-display" id="username">User</div>
+  </div>
+
+  <div class="wrapper">
+    <div class="container">
+      <div class="card">
+        <div class="tabs">
+          <button class="tab" onclick="goToAccount()">Account</button>
+          <button class="tab active">Week</button>
+          <button class="tab" onclick="goToHistory()">History</button>
+          <button class="close-btn" onclick="location.href='homepage.html'">&times;</button>
+        </div>
+
+        <div class="label">First day of the week:</div>
+        <div class="dropdown" id="selectedDay">Sunday</div>
+
+        <div class="weekday-list" id="weekdayList">
+          <div class="weekday selected" onclick="selectDay(this)">Sunday</div>
+          <div class="weekday" onclick="selectDay(this)">Monday</div>
+          <div class="weekday" onclick="selectDay(this)">Tuesday</div>
+          <div class="weekday" onclick="selectDay(this)">Wednesday</div>
+          <div class="weekday" onclick="selectDay(this)">Thursday</div>
+          <div class="weekday" onclick="selectDay(this)">Friday</div>
+          <div class="weekday" onclick="selectDay(this)">Saturday</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Display username from localStorage
+    const storedUsername = localStorage.getItem("username");
+    if (storedUsername) {
+      document.getElementById("username").textContent = storedUsername;
+    }
+
+    // Save selected day and redirect to homepage
+    function selectDay(el) {
+      document.querySelectorAll('.weekday').forEach(day =>
+        day.classList.remove('selected')
+      );
+      el.classList.add('selected');
+
+      const selectedDay = el.textContent;
+      document.getElementById('selectedDay').textContent = selectedDay;
+
+      const dayMap = {
+        "Sunday": "Sun",
+        "Monday": "Mon",
+        "Tuesday": "Tue",
+        "Wednesday": "Wed",
+        "Thursday": "Thu",
+        "Friday": "Fri",
+        "Saturday": "Sat"
+      };
+      const shortDay = dayMap[selectedDay];
+      localStorage.setItem("selectedDay", shortDay);
+
+      window.location.href = "homepage.html";
+    }
+
+    function goToAccount() {
+      window.location.href = 'Account.html'; // ✅ ensure file exists
+    }
+
+    function goToHistory() {
+      window.location.href = 'history.html'; // ✅ ensure file exists
+    }
+  </script>
+
+</body>
+</html>
